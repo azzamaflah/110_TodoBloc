@@ -61,7 +61,7 @@ class TodoPage extends StatelessWidget {
                 ],
               ),
 
-               SizedBox(height: 20),
+              SizedBox(height: 20),
               Form(
                 key: _key,
                 child: Row(
@@ -105,16 +105,15 @@ class TodoPage extends StatelessWidget {
                   ],
                 ),
               ),
-              
-            SizedBox(height: 16.0),
+
+              SizedBox(height: 16.0),
               Expanded(
                 child: BlocBuilder<TodoBloc, TodoState>(
                   builder: (context, state) {
-                    if(state is TodoLoading) {
-                      return Center(child: CircularProgressIndicator(),);
+                    if (state is TodoLoading) {
+                      return Center(child: CircularProgressIndicator());
                     } else if (state is TodoLoaded) {
-                      
-                      if(state.todos.isEmpty) {
+                      if (state.todos.isEmpty) {
                         return Center(child: Text('Todo List Kosong'));
                       }
 
@@ -127,25 +126,27 @@ class TodoPage extends StatelessWidget {
                             padding: EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
                               color: Colors.blue[50],
-                              borderRadius: BorderRadius.circular(8.0)
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           todo.title,
                                           style: TextStyle(
                                             fontSize: 16,
-                                            fontWeight: FontWeight.bold
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                         SizedBox(height: 24),
+                                        SizedBox(height: 24),
                                         Text(
                                           '${todo.date.day}/${todo.date.month}/${todo.date.year}',
                                           style: TextStyle(color: Colors.grey),
@@ -154,17 +155,38 @@ class TodoPage extends StatelessWidget {
                                         SizedBox(height: 4.0),
                                         Text(
                                           todo.isComplete
-                                            ? 'completed'
-                                            : 'Not Completed',
+                                              ? 'completed'
+                                              : 'Not Completed',
                                           style: TextStyle(
                                             color:
-                                              todo.isComplete
-                                                ? Colors.green
-                                                : Colors.red,
+                                                todo.isComplete
+                                                    ? Colors.green
+                                                    : Colors.red,
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
+                                    Checkbox(
+                                      value: todo.isComplete,
+                                      onChanged: (value) {
+                                        context.read<TodoBloc>().add(
+                                          TodoEventComplete(index: index),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return Center(child: Text('Tida Ada Daftar TODO'));
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

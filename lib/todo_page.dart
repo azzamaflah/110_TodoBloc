@@ -145,6 +145,26 @@ class TodoPage extends StatelessWidget {
                                             fontWeight: FontWeight.bold
                                           ),
                                         ),
+                                         SizedBox(height: 24),
+                                        Text(
+                                          '${todo.date.day}/${todo.date.month}/${todo.date.year}',
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+
+                                        SizedBox(height: 4.0),
+                                        Text(
+                                          todo.isComplete
+                                            ? 'completed'
+                                            : 'Not Completed',
+                                          style: TextStyle(
+                                            color:
+                                              todo.isComplete
+                                                ? Colors.green
+                                                : Colors.red,
+                                          ),
+                                        )
+                                      ],
+                                    ),
             ],
           ),
         ),

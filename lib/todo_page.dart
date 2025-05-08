@@ -17,8 +17,8 @@ class TodoPage extends StatelessWidget {
             children: [
               Text('Todo List'),
 
-            Row(
-              children: [
+              Row(
+                children: [
                   Column(
                     children: [
                       Text('Pilih Tanggal'),
@@ -59,10 +59,56 @@ class TodoPage extends StatelessWidget {
                     ),
                   ),
                 ],
-            )
-              
-            ]
-          ),)),
+              ),
+
+               SizedBox(height: 20),
+              Form(
+                key: _key,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          labelText: 'Todo',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Masukan data todo';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    SizedBox(width: 10),
+                    FilledButton(
+                      onPressed: () {
+                        if (_key.currentState!.validate()) {
+                          final selectDate = context.read<TodoBloc>().state;
+
+                          if (selectDate is TodoLoaded) {
+                            context.read<TodoBloc>().add(
+                              TodoEventAdd(
+                                title: _controller.text,
+                                date: selectDate.selectDate!,
+                              ),
+                            );
+                            _controller.clear();
+                            selectDate.selectDate = null;
+                          }
+                        }
+                      },
+                      child: Text('Tambah'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

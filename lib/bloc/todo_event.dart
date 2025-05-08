@@ -7,3 +7,10 @@ final class TodoEventAdd extends TodoEvent {
   final DateTime date;
   TodoEventAdd({required this.title, required this.date});
 }
+
+final class TodoEventComplete extends TodoEvent {
+  final int index;
+  // catatan : index adalah identifier
+
+  TodoEventComplete({required this.index});
+}
